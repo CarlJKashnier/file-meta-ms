@@ -1,0 +1,42 @@
+<html>
+<head>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+        $(document).ready(function() {
+          $("form#file").submit(function(event){
+console.log("in code")
+            //disable the default form submission
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            event.stopPropagation()
+            //grab all form data
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+              url: '/upload',
+              type: 'POST',
+              data: formData,
+              async: false,
+              cache: false,
+              contentType: false,
+              processData: false,
+              success: function (returndata) {
+                alert("File size is: " + returndata.size + "bytes!");
+              }
+            });
+
+            return false;
+          });
+       });
+</script>
+</head>
+<body>
+
+  <form action="/upload" method="post" enctype="multipart/form-data" id="file">
+      File: <input name="myfile" type="file" />
+            <input type="submit" name="submitBtn" value="Upload" />
+  </form>
+</form>
+
+</body>
+</html>
